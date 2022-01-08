@@ -1,11 +1,11 @@
-# HypeCli
-Hype Cli is a way to get data on players and leaderboards from the Hypixel Minecraft server from the command line. 
+# HyConsole
+HyConsole is a way to get data on players and leaderboards from the Hypixel Minecraft server from the command line. 
 Keep in mind I have no affiliation with the Hypixel Server
 
 installation:
   work in progress
   
- syntax: if you have it as an executeable you will use ./hypecli, then use one of various arguments
+ syntax: if you have it as an executeable and it is not on PATH, you will use ./HyConsole, then use one of various arguments
  using -l will return leaderboard data
  using -p will return player data
  
