@@ -10,14 +10,51 @@ for arg in sys.argv:
         args.append(str(arg))
 i = 0
 for command in args:
-        print(command)
         if command == "-p":
+                alternate = 1
                 playerdata = requests.get(
                         url = "https://api.hypixel.net/player", params = {
                                 "key": "645d93fe-5a2b-4ade-a1ff-dc1c8d6c4c9a",
                                 "name": args[i + 1]}).json()
-        elif command == "-c":
-                print("this player has " + str(playerdata['player']['stats']['SkyWars']['coins']) + " skywars coins")
+                playeroptions = []
+                stat = []
+                p = 0
+                optionnum = 0
+                for data in playerdata["player"]:
+                        playeroptions.append(data)
+                        p += 1
+                        optionnum += 1
+                        print(str(p) + " " + data)
+                print("please type the number of the data you want to access")
+                p2 = int(input()) - 1
+                p = 0
+                while optionnum > 1:
+                        playeroptions2 = []
+                        optionnum = 0
+                        if alternate == 1:
+                                for data in playerdata["player"][playeroptions[p2]]:
+                                        optionnum += 1
+                                        p += 1
+                                        print(str(p) + " " + data)
+                                        playeroptions2.append(data)
+                        elif alternate == -1:
+                                playeroptions = []
+                                for data in playerdata["player"][playeroptions2[p2]]:
+                                        optionnum += 1
+                                        p += 1
+                                        print(str(p) + " " + data)
+                                        playeroptions.append(data)
+                        print("please select which data you would like to view")
+                        p2 = int(input()) - 1
+                        alternate = alternate * 1
+                if alternate == -1:
+                        print(playeroptions[p2])
+                elif alternate == 1:
+                        print(playeroptions2[p2])
+                        
+                        
+                                
+                                
         elif command == "-l":
                 leaderboarddata = requests.get(
                         url = "https://api.hypixel.net/leaderboards", params = {
@@ -29,7 +66,7 @@ for command in args:
                      print(str(n + 1) + " " + name)
                      n += 1
                 print("please type in the numer that corresponds to the leaderboard you wish to access")
-                x = int(input())
+                x = int(input()) - 1
                 n = 0
                 for option in leaderboarddata["leaderboards"][leaderboardoptions[x - 1]]:
                         print(str(n + 1) + " " + option["title"])
@@ -37,10 +74,12 @@ for command in args:
                 print("type in the number for the leaderboard you would like to access")
                 y = int(input()) - 1
                 u = 0
-                leaders = leaderboarddata["leaderboards"][leaderboardoptions[x - 1]][y]["leaders"]
+                leaders = leaderboarddata["leaderboards"][leaderboardoptions[x]][y]["leaders"]
                 for uuid in leaders:
                         data = requests.get("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid).json()
                         print(str(u + 1) + " " + data["name"])
                         u += 1
         i += 1
+
+
 
