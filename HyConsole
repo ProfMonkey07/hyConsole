@@ -2,6 +2,7 @@
 import requests
 import sys
 import json
+apikey = ""
 # this program will be used to gather data on players from the Hypixel minecraft server via command line
 # keep in mind I have no affiliation with the Hypixel server
 leaderboardoptions = ["UHC", "VAMPIREZ", "SURVIVAL_GAMES", "WALLS3", "QUAKECRAFT", "TNTGAMES", "SUPER_SMASH", "WALLS", "MURDER_MYSTERY", "BUILD_BATTLE", "ARCADE", "GINGERBREAD", "SKYCLASH", "PROTOTYPE", "BEDWARS", "DUELS", "ARENA", "MCGO", "SPEED_UHC", "PAINTBALL", "BATTLEGROUND", "SKYWARS"]
@@ -14,7 +15,7 @@ for command in args:
                 alternate = 1
                 playerdata = requests.get(
                         url = "https://api.hypixel.net/player", params = {
-                                "key": "645d93fe-5a2b-4ade-a1ff-dc1c8d6c4c9a",
+                                "key": apikey,
                                 "name": args[i + 1]}).json()
                 optionnum = 0
                 viewingdata = playerdata["player"]
@@ -35,7 +36,7 @@ for command in args:
         elif command == "-l":
                 leaderboarddata = requests.get(
                         url = "https://api.hypixel.net/leaderboards", params = {
-                                "key": "645d93fe-5a2b-4ade-a1ff-dc1c8d6c4c9a"
+                                "key": apikey
                         }
                 ).json()
                 n = 0
