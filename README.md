@@ -15,3 +15,5 @@ installation:
  this is because it is required to convert every uuid to a username with the Mojang api one at a time
  I am currently working on fixing this but for now be patient
  A graphical user interface in the command line will be coming soon
+
+in the next commit these arguments will be made obsolete and will no longer work, I am adapting it to total gui
