@@ -2,61 +2,109 @@
 import requests
 import sys
 import json
-apikey = ""
+import pytermgui as gui
+from pytermgui import WindowManager, Window
+import time
 # this program will be used to gather data on players from the Hypixel minecraft server via command line
 # keep in mind I have no affiliation with the Hypixel server
-leaderboardoptions = ["UHC", "VAMPIREZ", "SURVIVAL_GAMES", "WALLS3", "QUAKECRAFT", "TNTGAMES", "SUPER_SMASH", "WALLS", "MURDER_MYSTERY", "BUILD_BATTLE", "ARCADE", "GINGERBREAD", "SKYCLASH", "PROTOTYPE", "BEDWARS", "DUELS", "ARENA", "MCGO", "SPEED_UHC", "PAINTBALL", "BATTLEGROUND", "SKYWARS"]
-args = []
-for arg in sys.argv:
-        args.append(str(arg))
-i = 0
-for command in args:
-        if command == "-p":
-                alternate = 1
-                playerdata = requests.get(
+apikey = ""
+manager = WindowManager()
+def player(playername):
+    playerdata = requests.get(
                         url = "https://api.hypixel.net/player", params = {
                                 "key": apikey,
-                                "name": args[i + 1]}).json()
-                optionnum = 0
-                viewingdata = playerdata["player"]
-                while len(str(viewingdata).split(' ')) > 1:
-                        p = 0
-                        playeroptions = []
-                        for data in viewingdata:
-                                print(str(p + 1) + " " + data)
-                                p += 1
-                                playeroptions.append(data)
-                        print("please select what you would like to view")
-                        p2 = int(input()) - 1
-                        viewingdata = viewingdata[playeroptions[p2]]
-                print(viewingdata)
-                        
-                                
-                                
-        elif command == "-l":
-                leaderboarddata = requests.get(
+                                "name": playername}).json()
+def skyblock(player):
+    uuid = requests.get("https://api.mojang.com/users/profiles/minecraft/" + player + "?")
+    skyblockdata = requests.get(
+                        url = "https://api.hypixel.net/skyblock", params = {
+                                "key": apikey,
+                                "uuid": uuid["id"]}).json()
+def leaderboard():
+    leaderboarddata = requests.get(
                         url = "https://api.hypixel.net/leaderboards", params = {
                                 "key": apikey
                         }
                 ).json()
-                n = 0
-                for name in leaderboardoptions:
-                     print(str(n + 1) + " " + name)
-                     n += 1
-                print("please type in the numer that corresponds to the leaderboard you wish to access")
-                x = int(input()) - 1
-                n = 0
-                for option in leaderboarddata["leaderboards"][leaderboardoptions[x - 1]]:
-                        print(str(n + 1) + " " + option["title"])
-                        n += 1
-                print("type in the number for the leaderboard you would like to access")
-                y = int(input()) - 1
-                u = 0
-                leaders = leaderboarddata["leaderboards"][leaderboardoptions[x]][y]["leaders"]
-                for uuid in leaders:
-                        data = requests.get("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid).json()
-                        print(str(u + 1) + " " + data["name"])
-                        u += 1
-        i += 1
 
+UHC = (
+    Window(min_width=50)
+    +"Here are the leaderboard options for UHC")
+SURVIVAL_GAMES = (
+    Window(min_width=50)
+    +"Here are the leaderboard options for Survival Games")
+QUAKECRAFT = (
+    Window(min_width=50)
+    +"Here are the leaderboard options for QuakeCraft")
+TNTGAMES = (
+    Window(min_width=50)
+    +"Here are the leaderboard options for TNT Games")
+WALLS = (
+    Window(min_width=50)
+    +"Here are the leaderboard options for Walls")
+MURDER_MYSTERY = (
+    Window(min_width=50)
+    +"Here are the leaderboard options for Murder Mystery")
+BUILD_BATTLE = (
+    Window(min_width=50)
+    +"Here are the leaderboard options for Build Battle")
+ARCADE = (
+    Window(min_width=50)
+    +"Here are the leaderboard options for Arcade")
+BEDWARS = (
+    Window(min_width=50)
+    +"Here are the leaderboard options for BedWars")
+DUELS = (
+    Window(min_width=50)
+    +"Here are the leaderboard options for Duels")
+ARENA = (
+    Window(min_width=50)
+    +"Here are the leaderboard options for Arena")
+SPEED_UHC = (
+    Window(min_width=50)
+    +"Here are the leaderboard options for Speed UHC")
+SKYWARS = (
+    Window(min_width=50)
+    +"Here are the leaderboard options for SkyWars")
 
+ProfileMenu = (
+    Window(min_width=50)
+    +"Use this menu to navigate Profiles"
+    +gui.InputField(prompt="What profile do you wish to view")
+    + ["exit", lambda *_: sys.exit(0)]
+)
+LeaderboardMenu = (
+    Window(min_width=50)
+    +"Use this menu to navigate Leaderboards"
+    + ["UHC", lambda *_: manager.add(UHC.copy().center())]
+    + ["SURVIVAL_GAMES", lambda *_: manager.add(UHC.copy().center())] 
+    + ["QUAKECRAFT", lambda *_: manager.add(SURVIVAL_GAMES.copy().center())]
+    + ["TNTGAMES", lambda *_: manager.add(TNTGAMES.copy().center())]
+    + ["WALLS", lambda *_: manager.add(WALLS.copy().center())]
+    + ["MURDER_MYSTERY", lambda *_: manager.add(MURDER_MYSTERY.copy().center())]
+    + ["BUILD_BATTLE", lambda *_: manager.add(BUILD_BATTLE.copy().center())]
+    + ["ARCADE", lambda *_: manager.add(ARCADE.copy().center())]
+    + ["BEDWARS", lambda *_: manager.add(BEDWARS.copy().center())]
+    + ["DUELS", lambda *_: manager.add(DUELS.copy().center())]
+    + ["ARENA", lambda *_: manager.add(ARENA.copy().center())]
+    + ["SPEED_UHC", lambda *_: manager.add(SPEED_UHC.copy().center())]
+    + ["SKYWARS", lambda *_: manager.add(SKYWARS.copy().center())]
+    + ["exit", lambda *_: sys.exit(0)]
+)
+SkyblockMenu = (
+    Window(min_width=50)
+    +"Use this menu to navigate Skyblock Profiles"
+    +gui.InputField(prompt="What profile do you wish to view")
+    + ["exit", lambda *_: sys.exit(0)]
+)
+Mainmenu = (
+    Window(min_width=50)
+    + "welcome to HyConsole"
+    + "use the gui to navigate player stats and leaderboards"
+    + ["Profile", lambda *_: manager.add(ProfileMenu.copy().center())]
+    + ["Leaderboard", lambda *_: manager.add(LeaderboardMenu.copy().center())]
+    + ["Skyblock", lambda *_: manager.add(SkyblockMenu.copy().center())]
+    + ["exit", lambda *_: sys.exit(0)]
+)
+manager.add(Mainmenu)
+manager.run()
