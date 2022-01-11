@@ -7,15 +7,17 @@ from pytermgui import WindowManager, Window
 import time
 # this program will be used to gather data on players from the Hypixel minecraft server via command line
 # keep in mind I have no affiliation with the Hypixel server
+#you will need to add you api key here
 apikey = ""
 manager = WindowManager()
+#functions to get data from the api
 def player(playername):
     playerdata = requests.get(
                         url = "https://api.hypixel.net/player", params = {
                                 "key": apikey,
                                 "name": playername}).json()
-def skyblock(player):
-    uuid = requests.get("https://api.mojang.com/users/profiles/minecraft/" + player + "?")
+def skyblock(playername):
+    uuid = requests.get("https://api.mojang.com/users/profiles/minecraft/" + playername + "?")
     skyblockdata = requests.get(
                         url = "https://api.hypixel.net/skyblock", params = {
                                 "key": apikey,
@@ -26,7 +28,8 @@ def leaderboard():
                                 "key": apikey
                         }
                 ).json()
-
+#setting up windows that will be opened later
+#these here are all of the games for the leaderboards
 UHC = (
     Window(min_width=50)
     +"Here are the leaderboard options for UHC")
@@ -66,13 +69,7 @@ SPEED_UHC = (
 SKYWARS = (
     Window(min_width=50)
     +"Here are the leaderboard options for SkyWars")
-
-ProfileMenu = (
-    Window(min_width=50)
-    +"Use this menu to navigate Profiles"
-    +gui.InputField(prompt="What profile do you wish to view")
-    + ["exit", lambda *_: sys.exit(0)]
-)
+#sorry for the length but I couldn't think of a better way to do this part
 LeaderboardMenu = (
     Window(min_width=50)
     +"Use this menu to navigate Leaderboards"
@@ -91,6 +88,13 @@ LeaderboardMenu = (
     + ["SKYWARS", lambda *_: manager.add(SKYWARS.copy().center())]
     + ["exit", lambda *_: sys.exit(0)]
 )
+#if someone knows how to actually collect user input please tell me
+ProfileMenu = (
+    Window(min_width=50)
+    +"Use this menu to navigate Profiles"
+    +gui.InputField(prompt="What profile do you wish to view")
+    + ["exit", lambda *_: sys.exit(0)]
+)
 SkyblockMenu = (
     Window(min_width=50)
     +"Use this menu to navigate Skyblock Profiles"
@@ -106,5 +110,16 @@ Mainmenu = (
     + ["Skyblock", lambda *_: manager.add(SkyblockMenu.copy().center())]
     + ["exit", lambda *_: sys.exit(0)]
 )
+#starting the window
+args = []
+for arg in sys.argv:
+    args.append(arg)
+a = 0
+for argument in args:
+    if argument == "-p":
+        skyblock(args[a + 1])
+        player(args[a + 1])
+    a += 1
+        
 manager.add(Mainmenu)
 manager.run()
