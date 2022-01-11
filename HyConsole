@@ -18,10 +18,11 @@ def player(playername):
                                 "name": playername}).json()
 def skyblock(playername):
     uuid = requests.get("https://api.mojang.com/users/profiles/minecraft/" + playername + "?")
+    uuid = str(uuid["id"])
     skyblockdata = requests.get(
                         url = "https://api.hypixel.net/skyblock", params = {
                                 "key": apikey,
-                                "uuid": uuid["id"]}).json()
+                                "uuid": uuid}).json()
 def leaderboard():
     leaderboarddata = requests.get(
                         url = "https://api.hypixel.net/leaderboards", params = {
