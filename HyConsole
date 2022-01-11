@@ -17,7 +17,7 @@ def player(playername):
                                 "key": apikey,
                                 "name": playername}).json()
 def skyblock(playername):
-    uuid = requests.get("https://api.mojang.com/users/profiles/minecraft/" + playername + "?")
+    uuid = requests.get("https://api.mojang.com/users/profiles/minecraft/" + playername + "?").json()
     uuid = str(uuid["id"])
     skyblockdata = requests.get(
                         url = "https://api.hypixel.net/skyblock", params = {
