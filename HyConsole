@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 import requests
 import sys
-import json
 import pytermgui as gui
 from pytermgui import WindowManager, Window
 import time
@@ -9,31 +8,15 @@ import time
 # keep in mind I have no affiliation with the Hypixel server
 #you will need to add you api key here
 apikey = ""
+username = ""
 manager = WindowManager()
-#functions to get data from the api
-def player(playername):
-    playerdata = requests.get(
-                        url = "https://api.hypixel.net/player", params = {
-                                "key": apikey,
-                                "name": playername}).json()
-def skyblock(playername):
-    uuid = requests.get("https://api.mojang.com/users/profiles/minecraft/" + playername + "?").json()
-    uuid = str(uuid["id"])
-    skyblockdata = requests.get(
-                        url = "https://api.hypixel.net/skyblock", params = {
-                                "key": apikey,
-                                "uuid": uuid}).json()
-def leaderboard():
-    leaderboarddata = requests.get(
-                        url = "https://api.hypixel.net/leaderboards", params = {
-                                "key": apikey
-                        }
-                ).json()
 #setting up windows that will be opened later
 #these here are all of the games for the leaderboards
+
 UHC = (
     Window(min_width=50)
-    +"Here are the leaderboard options for UHC")
+    +"Here are the leaderboard options for UHC"
+    )
 SURVIVAL_GAMES = (
     Window(min_width=50)
     +"Here are the leaderboard options for Survival Games")
@@ -89,13 +72,56 @@ LeaderboardMenu = (
     + ["SKYWARS", lambda *_: manager.add(SKYWARS.copy().center())]
     + ["exit", lambda *_: sys.exit(0)]
 )
-#if someone knows how to actually collect user input please tell me
+
+BedWars = (Window(min_width=50))
+SkyWars = (Window(min_width=50))
+Duels = (Window(min_width=50))
+Build_Battle = (Window(min_width=50))
+uhc = (Window(min_width=50))
+
 ProfileMenu = (
     Window(min_width=50)
-    +"Use this menu to navigate Profiles"
-    +gui.InputField(prompt="What profile do you wish to view")
+    +"Use this menu to navigate various stats"
+    + ["BedWars", lambda *_: manager.add(BedWars.copy().center())]
+    + ["SkyWars", lambda *_: manager.add(SkyWars.copy().center())]
+    + ["Duels", lambda *_: manager.add(Duels.copy().center())]
+    + ["Build Battle", lambda *_: manager.add(Build_Battle.copy().center())]
+    + ["UHC", lambda *_: manager.add(uhc.copy().center())]
     + ["exit", lambda *_: sys.exit(0)]
 )
+
+pets = (Window(min_width=50))
+
+coins = (Window(min_width=50))
+
+FarmingS = (Window(min_width=50))
+MiningS = (Window(min_width=50))
+CombatS = (Window(min_width=50))
+ForagingS = (Window(min_width=50))
+FishingS= (Window(min_width=50))
+EnchantingS= (Window(min_width=50))
+AlchemyS= (Window(min_width=50))
+TamingS= (Window(min_width=50))
+DungeonS = (Window(min_width=50))
+
+skills = (
+    Window(min_width=50)
+    + ["UHC", lambda *_: manager.add(uhc.copy().center())]
+    + ["UHC", lambda *_: manager.add(uhc.copy().center())]
+    + ["UHC", lambda *_: manager.add(uhc.copy().center())]
+    + ["UHC", lambda *_: manager.add(uhc.copy().center())]
+    + ["UHC", lambda *_: manager.add(uhc.copy().center())]
+
+)
+FarmingC = (Window(min_width=50))
+MiningC = (Window(min_width=50))
+CombatC = (Window(min_width=50))
+ForagingC = (Window(min_width=50))
+FishingC = (Window(min_width=50))
+BossC = (Window(min_width=50))
+
+collections = (Window(min_width=50))
+
 SkyblockMenu = (
     Window(min_width=50)
     +"Use this menu to navigate Skyblock Profiles"
@@ -115,12 +141,25 @@ Mainmenu = (
 args = []
 for arg in sys.argv:
     args.append(arg)
-a = 0
-for argument in args:
-    if argument == "-p":
-        skyblock(args[a + 1])
-        player(args[a + 1])
-    a += 1
+print(args)
+username = args[2]
+print(username)
+playerdata = requests.get(
+    url = "https://api.hypixel.net/player", params = {
+        "key": apikey,
+        "name": username}).json()
+uuid = requests.get(url = "https://api.mojang.com/users/profiles/minecraft/" + username + "?").json()
+uuid = str(uuid["id"])
+skyblockdata = requests.get(
+    url = "https://api.hypixel.net/skyblock", params = {
+        "key": apikey,
+        "uuid": uuid}).json()
+leaderboarddata = requests.get(
+                        url = "https://api.hypixel.net/leaderboards", params = {
+                                "key": apikey
+                        }
+                ).json()
+
         
 manager.add(Mainmenu)
 manager.run()
