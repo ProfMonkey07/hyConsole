@@ -4,70 +4,72 @@ import pytermgui as gui
 from pytermgui import WindowManager, Window
 # The program will be used in order to gather data on players from the Hypixel server via the command line
 # The program has 0 affiliation by Hypixel
-apikey = input("Enter your API key: ")
-username = input("Enter your username: ")
+print("Enter your API key: ")
+apikey = str(input())
+print("Enter your username: ")
+username = str(input)
 manager = WindowManager()
 #setting up windows that will be opened later
-#these here are all of the games for the leaderboards
+#All the games for the leaderboards:
 
 UHC = (
     Window(min_width=50)
-    +"Here are the leaderboard options for UHC"
+    +"UHC Leaderboard Options"
     )
 SURVIVAL_GAMES = (
     Window(min_width=50)
-    +"Here are the leaderboard options for Survival Games")
+    +"Survival Games Leaderboard Options")
 QUAKECRAFT = (
     Window(min_width=50)
-    +"Here are the leaderboard options for QuakeCraft")
+    +"QuakeCraft Leaderboard Options")
 TNTGAMES = (
     Window(min_width=50)
-    +"Here are the leaderboard options for TNT Games")
+    +"TNT Games Leaderboard Options")
 WALLS = (
     Window(min_width=50)
-    +"Here are the leaderboard options for Walls")
+    +"Walls Leaderboard Options")
 MURDER_MYSTERY = (
     Window(min_width=50)
-    +"Here are the leaderboard options for Murder Mystery")
+    +"Murder Mystery Leaderboard Options")
 BUILD_BATTLE = (
     Window(min_width=50)
-    +"Here are the leaderboard options for Build Battle")
+    +"Build Battle Leaderboard Options")
 ARCADE = (
     Window(min_width=50)
-    +"Here are the leaderboard options for Arcade")
+    +"Arcade Leaderboard Options")
 BEDWARS = (
     Window(min_width=50)
-    +"Here are the leaderboard options for BedWars")
+    +"BedWars Leaderboard Options")
 DUELS = (
     Window(min_width=50)
-    +"Here are the leaderboard options for Duels")
+    +"Duels Leaderboard Options")
 ARENA = (
     Window(min_width=50)
-    +"Here are the leaderboard options for Arena")
+    +"Arena Leaderboard Options")
 SPEED_UHC = (
     Window(min_width=50)
-    +"Here are the leaderboard options for Speed UHC")
+    +"Speed UHC Leaderboard Options")
 SKYWARS = (
     Window(min_width=50)
-    +"Here are the leaderboard options for SkyWars")
+    +"SkyWars Leaderboard Options")
 #sorry for the length but I couldn't think of a better way to do this part
 LeaderboardMenu = (
     Window(min_width=50)
     +"Use this menu to navigate Leaderboards"
     + ["UHC", lambda *_: manager.add(UHC.copy().center())]
-    + ["SURVIVAL_GAMES", lambda *_: manager.add(UHC.copy().center())] 
-    + ["QUAKECRAFT", lambda *_: manager.add(SURVIVAL_GAMES.copy().center())]
-    + ["TNTGAMES", lambda *_: manager.add(TNTGAMES.copy().center())]
-    + ["WALLS", lambda *_: manager.add(WALLS.copy().center())]
-    + ["MURDER_MYSTERY", lambda *_: manager.add(MURDER_MYSTERY.copy().center())]
-    + ["BUILD_BATTLE", lambda *_: manager.add(BUILD_BATTLE.copy().center())]
-    + ["ARCADE", lambda *_: manager.add(ARCADE.copy().center())]
-    + ["BEDWARS", lambda *_: manager.add(BEDWARS.copy().center())]
-    + ["DUELS", lambda *_: manager.add(DUELS.copy().center())]
-    + ["ARENA", lambda *_: manager.add(ARENA.copy().center())]
-    + ["SPEED_UHC", lambda *_: manager.add(SPEED_UHC.copy().center())]
-    + ["SKYWARS", lambda *_: manager.add(SKYWARS.copy().center())]
-    + ["exit", lambda *_: sys.exit(0)]
+    + ["Survival Games", lambda *_: manager.add(UHC.copy().center())] 
+    + ["Quakecraft", lambda *_: manager.add(SURVIVAL_GAMES.copy().center())]
+    + ["TNT Games", lambda *_: manager.add(TNTGAMES.copy().center())]
+    + ["Walls", lambda *_: manager.add(WALLS.copy().center())]
+    + ["Murder Mystery", lambda *_: manager.add(MURDER_MYSTERY.copy().center())]
+    + ["Build Battle", lambda *_: manager.add(BUILD_BATTLE.copy().center())]
+    + ["Arcade", lambda *_: manager.add(ARCADE.copy().center())]
+    + ["BedWars", lambda *_: manager.add(BEDWARS.copy().center())]
+    + ["Duels", lambda *_: manager.add(DUELS.copy().center())]
+    + ["Arena", lambda *_: manager.add(ARENA.copy().center())]
+    + ["Speed UHC", lambda *_: manager.add(SPEED_UHC.copy().center())]
+    + ["SkyWars", lambda *_: manager.add(SKYWARS.copy().center())]
+    + ["Exit", lambda *_: sys.exit(0)]
 )
 
 BedWars = (Window(min_width=50))
@@ -84,7 +86,7 @@ ProfileMenu = (
     + ["Duels", lambda *_: manager.add(Duels.copy().center())]
     + ["Build Battle", lambda *_: manager.add(Build_Battle.copy().center())]
     + ["UHC", lambda *_: manager.add(uhc.copy().center())]
-    + ["exit", lambda *_: sys.exit(0)]
+    + ["Exit", lambda *_: sys.exit(0)]
 )
 
 pets = (Window(min_width=50))
@@ -121,26 +123,28 @@ collections = (Window(min_width=50))
 
 SkyblockMenu = (
     Window(min_width=50)
-    +"Use this menu to navigate Skyblock Profiles"
-    +gui.InputField(prompt="What profile do you wish to view")
-    + ["exit", lambda *_: sys.exit(0)]
+    +"Choose a profile to view"
+    +gui.InputField(prompt="")
+    + ["Exit", lambda *_: sys.exit(0)]
 )
 Mainmenu = (
     Window(min_width=50)
-    + "welcome to HyConsole"
-    + "use the gui to navigate player stats and leaderboards"
+    + "Welcome to HyConsole!"
+    + ""
     + ["Profile", lambda *_: manager.add(ProfileMenu.copy().center())]
     + ["Leaderboard", lambda *_: manager.add(LeaderboardMenu.copy().center())]
     + ["Skyblock", lambda *_: manager.add(SkyblockMenu.copy().center())]
-    + ["exit", lambda *_: sys.exit(0)]
+    + ["Exit", lambda *_: sys.exit(0)]
 )
 #starting the window
-args = []
-for arg in sys.argv:
-    args.append(arg)
-print(args)
-username = username
-print(username)
+validitytest = requests.get(url = f"https://api.mojang.com/users/profiles/minecraft/{username}?").json()
+try:
+    validitytest = str(validitytest["name"])
+    if validitytest == username:
+        print("Username Valid")
+except Exception:
+    print("Invalid or Wrong Username!")
+    exit()
 playerdata = requests.get(
     url = "https://api.hypixel.net/player", params = {
         "key": apikey,
