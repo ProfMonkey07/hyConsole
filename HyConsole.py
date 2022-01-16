@@ -1,9 +1,20 @@
 #!/usr/bin/python3
-import requests, sys, time
+import requests, sys, time, psutil, os
 import pytermgui as gui
 from pytermgui import WindowManager, Window
 # The program will be used in order to gather data on players from the Hypixel server via the command line
 # The program has 0 affiliation by Hypixel
+
+#Detecting if program has been ran via py.exe (possibly indicating that it was ran from cmd prompt)
+#Or if it was ran via Python IDLE (Which would cause a load ton of errors)
+ppid = os.getppid()
+if psutil.Process(ppid).name() == "py.exe":
+    print("Program possibly ran via cmd prompt - please note that running from CMD will cause a ton of errors.")
+elif psutil.Process(ppid).name() == "pythonw.exe":
+    print("Program ran via Python IDLE - this will cause a ton of errors.")
+    print("Exitting...")
+    exit()
+
 print("Enter your API key: ")
 apikey = str(input())
 print("Enter your username: ")
