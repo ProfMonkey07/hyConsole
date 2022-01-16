@@ -7,7 +7,7 @@ from pytermgui import WindowManager, Window
 print("Enter your API key: ")
 apikey = str(input())
 print("Enter your username: ")
-username = str(input)
+username = str(input())
 manager = WindowManager()
 #setting up windows that will be opened later
 #All the games for the leaderboards:
@@ -80,7 +80,8 @@ uhc = (Window(min_width=50))
 
 ProfileMenu = (
     Window(min_width=50)
-    +"Use this menu to navigate various stats"
+    +"Profile Menu"
+    +""
     + ["BedWars", lambda *_: manager.add(BedWars.copy().center())]
     + ["SkyWars", lambda *_: manager.add(SkyWars.copy().center())]
     + ["Duels", lambda *_: manager.add(Duels.copy().center())]
@@ -137,27 +138,15 @@ Mainmenu = (
     + ["Exit", lambda *_: sys.exit(0)]
 )
 #starting the window
-<<<<<<< HEAD
-=======
-args = []
-for arg in sys.argv:
-    args.append(arg)
-print(args)
-username = username
-print(username)
->>>>>>> ce293c1eacad89fc12e3845b818f88e5e6fc4a4e
 validitytest = requests.get(url = f"https://api.mojang.com/users/profiles/minecraft/{username}?").json()
 try:
     validitytest = str(validitytest["name"])
     if validitytest == username:
-<<<<<<< HEAD
-        print("Username Valid")
-=======
         print("Valid")
->>>>>>> ce293c1eacad89fc12e3845b818f88e5e6fc4a4e
 except Exception:
     print("Invalid or Wrong Username!")
     exit()
+
 playerdata = requests.get(
     url = "https://api.hypixel.net/player", params = {
         "key": apikey,
