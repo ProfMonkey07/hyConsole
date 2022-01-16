@@ -137,11 +137,24 @@ Mainmenu = (
     + ["Exit", lambda *_: sys.exit(0)]
 )
 #starting the window
+<<<<<<< HEAD
+=======
+args = []
+for arg in sys.argv:
+    args.append(arg)
+print(args)
+username = username
+print(username)
+>>>>>>> ce293c1eacad89fc12e3845b818f88e5e6fc4a4e
 validitytest = requests.get(url = f"https://api.mojang.com/users/profiles/minecraft/{username}?").json()
 try:
     validitytest = str(validitytest["name"])
     if validitytest == username:
+<<<<<<< HEAD
         print("Username Valid")
+=======
+        print("Valid")
+>>>>>>> ce293c1eacad89fc12e3845b818f88e5e6fc4a4e
 except Exception:
     print("Invalid or Wrong Username!")
     exit()
