@@ -162,7 +162,7 @@ playerdata = requests.get(
     url = "https://api.hypixel.net/player", params = {
         "key": apikey,
         "name": username}).json()
-uuid = requests.get(url = "https://api.mojang.com/users/profiles/minecraft/" + username + "?").json()
+uuid = requests.get(url = f"https://api.mojang.com/users/profiles/minecraft/{username}?").json()
 uuid = str(uuid["id"])
 skyblockdata = requests.get(
     url = "https://api.hypixel.net/skyblock", params = {
