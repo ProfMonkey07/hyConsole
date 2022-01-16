@@ -1,9 +1,7 @@
 #!/usr/bin/python3
-import requests
-import sys
+import requests, sys, time
 import pytermgui as gui
 from pytermgui import WindowManager, Window
-import time
 # this program will be used to gather data on players from the Hypixel minecraft server via command line
 # keep in mind I have no affiliation with the Hypixel server
 #you will need to add you api key here
