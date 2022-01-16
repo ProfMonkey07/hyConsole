@@ -5,8 +5,10 @@ from pytermgui import WindowManager, Window
 # this program will be used to gather data on players from the Hypixel minecraft server via command line
 # keep in mind I have no affiliation with the Hypixel server
 #you will need to add you api key here
-apikey = ""
-username = ""
+print("put your api key here")
+apikey = str(input())
+print("username")
+username = str(input)
 manager = WindowManager()
 #setting up windows that will be opened later
 #these here are all of the games for the leaderboards
@@ -136,12 +138,6 @@ Mainmenu = (
     + ["exit", lambda *_: sys.exit(0)]
 )
 #starting the window
-args = []
-for arg in sys.argv:
-    args.append(arg)
-print(args)
-username = args[2]
-print(username)
 playerdata = requests.get(
     url = "https://api.hypixel.net/player", params = {
         "key": apikey,
