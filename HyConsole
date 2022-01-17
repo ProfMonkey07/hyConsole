@@ -120,7 +120,16 @@ ForagingC = (Window(min_width=50))
 FishingC = (Window(min_width=50))
 BossC = (Window(min_width=50))
 
-collections = (Window(min_width=50))
+collections = (Window(min_width=50)
+              + ["Farming Collections", lambda *_: manager.add(FarmingC.copy().center())]
+              + ["Mining Collections", lambda *_: manager.add(MiningC.copy().center())]
+              + ["Combat Collections", lambda *_: manager.add(CombatC.copy().center())]
+              + ["Foraging Collections", lambda *_: manager.add(ForagingC.copy().center())]
+              + ["Fishing Collections", lambda *_: manager.add(FishingC.copy().center())]
+              + ["Boss Collections", lambda *_: manager.add(BossC.copy().center())])
+Flipping = (
+    Window(min_width=50)
+    + "Bazaar flipping will be coming to HyConsole soon")
 
 SkyblockMenu = (
     Window(min_width=50)
