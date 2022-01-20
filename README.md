@@ -7,9 +7,6 @@ you will need the python packages Requests, and Pytermgui for this to work
 installation:
   work in progress
   
- syntax: if you have it as an executeable and it is not on PATH, you will use ./HyConsole, then use one of various arguments
+ syntax: if you have it as an executeable and it is not on PATH, you will use ./HyConsole
  
- Currently there is a gui that can be navigated but does not have full functionality yet
- 
- it needs a playername to work, the syntax is ./HyConsole -p <playername> if made executeable, if added to path it is HyConsole -p <playername>, and if it has not been made executeable, python3 HyConsole -p <playername>
- 
+ It will ask for your hypixel api key which you can get by going on the hypixel server and running the command /api new, then it will ask for a username, input the username of the player you want to view. the playername is required so if you arent looking at stats of a player you can just put in a random name or your own.
