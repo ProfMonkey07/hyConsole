@@ -2,11 +2,9 @@
 import requests, sys, time, psutil, os
 import pytermgui as gui
 from pytermgui import WindowManager, Window
-# The program will be used in order to gather data on players from the Hypixel server via the command line
-# The program has 0 affiliation by Hypixel
-
-#Detecting if program has been ran via py.exe (possibly indicating that it was ran from cmd prompt)
-#Or if it was ran via Python IDLE (Which would cause a load ton of errors)
+# this program will be used to gather data on players from the Hypixel minecraft server via command line
+# keep in mind I have no affiliation with the Hypixel server
+#you will need to add you api key here
 ppid = os.getppid()
 if psutil.Process(ppid).name() == "py.exe":
     print("Program possibly ran via cmd prompt - please note that running from CMD will cause a ton of errors.")
@@ -14,14 +12,54 @@ elif psutil.Process(ppid).name() == "pythonw.exe":
     print("Program ran via Python IDLE - this will cause a ton of errors.")
     print("Exitting...")
     exit()
-print("put your api key here")
+print("enter api key")
 apikey = str(input())
-print("username")
-username = str(input)
+print("input username")
+username = str(input())
+x = "bob"
+validitytest = requests.get(url = f"https://api.mojang.com/users/profiles/minecraft/{username}?").json()
+try:
+    validitytest = str(validitytest["name"])
+    if validitytest == username:
+        print("Valid")
+except Exception:
+    print("Invalid or Wrong Username!")
+    exit()
 manager = WindowManager()
+playerdata = requests.get(
+    url = "https://api.hypixel.net/player", params = {
+        "key": apikey,
+        "name": username}).json()
+uuid = requests.get(url = "https://api.mojang.com/users/profiles/minecraft/" + username + "?").json()
+uuid = str(uuid["id"])
+skyblockdata = requests.get(
+    url = "https://api.hypixel.net/skyblock", params = {
+        "key": apikey,
+        "uuid": uuid}).json()
+leaderboarddata = requests.get(
+                        url = "https://api.hypixel.net/leaderboards", params = {
+                                "key": apikey
+                        }
+                ).json()
+online = requests.get(
+    url = "https://api.hypixel.net/status", params = {
+        "key": apikey,
+        "uuid": uuid
+    }
+).json()["session"]["online"]
+        
+bedwarscoins = playerdata["player"]["stats"]["Bedwars"]["coins"]
+bedwarsgames = playerdata["player"]["stats"]["Bedwars"]["games_played_bedwars"]
+bedwarskills = playerdata["player"]["stats"]["Bedwars"]["kills_bedwars"]
+bedsbroken = playerdata["player"]["stats"]["Bedwars"]["beds_broken_bedwars"]
+bedwarswins = playerdata["player"]["stats"]["Bedwars"]["wins_bedwars"]
+skywarscoins = playerdata["player"]["stats"]["SkyWars"]["coins"]
+skywarswins = playerdata["player"]["stats"]["SkyWars"]["wins"]
+skywarskills = playerdata["player"]["stats"]["SkyWars"]["kills"]
+skywarsgames = playerdata["player"]["stats"]["SkyWars"]["games"]
 #setting up windows that will be opened later
 #these here are all of the games for the leaderboards
-
+online = False
 UHC = (
     Window(min_width=50)
     +"Here are the leaderboard options for UHC"
@@ -82,20 +120,33 @@ LeaderboardMenu = (
     + ["exit", lambda *_: sys.exit(0)]
 )
 
-BedWars = (Window(min_width=50))
-SkyWars = (Window(min_width=50))
-Duels = (Window(min_width=50))
-Build_Battle = (Window(min_width=50))
-uhc = (Window(min_width=50))
+BedWars = (
+    Window(min_width=50)
+    +"coins:"
+    +f"{str(bedwarscoins)}"
+    +"kills:"
+    +f"{str(bedwarskills)}"
+    +"wins:"
+    +f"{str(bedwarswins)}"
+    +"games played:"
+    +f"{str(bedwarsgames)}"
+    +"beds broken:"
+    +f"{str(bedsbroken)}")
+SkyWars = (Window(min_width=50)
+    +"coins:"
+    +f"{str(skywarscoins)}"
+    +"kills:"
+    +f"{str(skywarskills)}"
+    +"wins:"
+    +f"{str(skywarswins)}"
+    +"games played:"
+    +f"{str(skywarsgames)}")
 
 ProfileMenu = (
     Window(min_width=50)
-    +"Use this menu to navigate various stats"
+    +"Use this menu to navigate various gamemodes, more will be coming later on"
     + ["BedWars", lambda *_: manager.add(BedWars.copy().center())]
     + ["SkyWars", lambda *_: manager.add(SkyWars.copy().center())]
-    + ["Duels", lambda *_: manager.add(Duels.copy().center())]
-    + ["Build Battle", lambda *_: manager.add(Build_Battle.copy().center())]
-    + ["UHC", lambda *_: manager.add(uhc.copy().center())]
     + ["exit", lambda *_: sys.exit(0)]
 )
 
@@ -115,11 +166,11 @@ DungeonS = (Window(min_width=50))
 
 skills = (
     Window(min_width=50)
-    + ["UHC", lambda *_: manager.add(uhc.copy().center())]
-    + ["UHC", lambda *_: manager.add(uhc.copy().center())]
-    + ["UHC", lambda *_: manager.add(uhc.copy().center())]
-    + ["UHC", lambda *_: manager.add(uhc.copy().center())]
-    + ["UHC", lambda *_: manager.add(uhc.copy().center())]
+    + ["Farming", lambda *_: manager.add(FarmingS.copy().center())]
+    + ["Mining", lambda *_: manager.add(MiningS.copy().center())]
+    + ["Combat", lambda *_: manager.add(CombatS.copy().center())]
+    + ["Fishing", lambda *_: manager.add(FishingS.copy().center())]
+    + ["Alchemy", lambda *_: manager.add(AlchemyS.copy().center())]
 
 )
 FarmingC = (Window(min_width=50))
@@ -129,16 +180,7 @@ ForagingC = (Window(min_width=50))
 FishingC = (Window(min_width=50))
 BossC = (Window(min_width=50))
 
-collections = (Window(min_width=50)
-              + ["Farming Collections", lambda *_: manager.add(FarmingC.copy().center())]
-              + ["Mining Collections", lambda *_: manager.add(MiningC.copy().center())]
-              + ["Combat Collections", lambda *_: manager.add(CombatC.copy().center())]
-              + ["Foraging Collections", lambda *_: manager.add(ForagingC.copy().center())]
-              + ["Fishing Collections", lambda *_: manager.add(FishingC.copy().center())]
-              + ["Boss Collections", lambda *_: manager.add(BossC.copy().center())])
-Flipping = (
-    Window(min_width=50)
-    + "Bazaar flipping will be coming to HyConsole soon")
+collections = (Window(min_width=50))
 
 SkyblockMenu = (
     Window(min_width=50)
@@ -150,36 +192,15 @@ Mainmenu = (
     Window(min_width=50)
     + "welcome to HyConsole"
     + "use the gui to navigate player stats and leaderboards"
+    +"you are currently viewing the profile of:"
+    +f"{username}"
+    +"online:"
+    +f"{online}"
     + ["Profile", lambda *_: manager.add(ProfileMenu.copy().center())]
     + ["Leaderboard", lambda *_: manager.add(LeaderboardMenu.copy().center())]
-    + ["Skyblock", lambda *_: manager.add(SkyblockMenu.copy().center())]
+    + ["Skyblock", lambda *_: manager.add(SkyblockMenu.copy().center()), lambda *_:mainM.close()]
     + ["exit", lambda *_: sys.exit(0)]
 )
-validitytest = requests.get(url = f"https://api.mojang.com/users/profiles/minecraft/{username}?").json()
-try:
-    validitytest = str(validitytest["name"])
-    if validitytest == username:
-        print("Valid")
-except Exception:
-    print("Invalid or Wrong Username!")
-    exit()
 #starting the window
-playerdata = requests.get(
-    url = "https://api.hypixel.net/player", params = {
-        "key": apikey,
-        "name": username}).json()
-uuid = requests.get(url = "https://api.mojang.com/users/profiles/minecraft/" + username + "?").json()
-uuid = str(uuid["id"])
-skyblockdata = requests.get(
-    url = "https://api.hypixel.net/skyblock", params = {
-        "key": apikey,
-        "uuid": uuid}).json()
-leaderboarddata = requests.get(
-                        url = "https://api.hypixel.net/leaderboards", params = {
-                                "key": apikey
-                        }
-                ).json()
-
-        
-manager.add(Mainmenu)
+mainM = manager.add(Mainmenu)
 manager.run()
