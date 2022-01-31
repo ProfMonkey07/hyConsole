@@ -29,7 +29,15 @@ try:
 except Exception:
     print("Invalid or Wrong Username!")
     exit()
-manager = WindowManager()
+
+#checks if api key is valid
+params = { "key": apikey }
+validitytest2 = requests.get("https://api.hypixel.net/key", params=params)
+if validitytest2.status_code == 403:
+    print("Invalid API Key")
+    exit()
+else:
+    print("Valid #2")
 
 #getting data
 playerdata = requests.get(
@@ -57,7 +65,7 @@ online = requests.get(
 ).json()["session"]["online"]
 #setting up windows that will be opened later
 #these here are all of the games for the leaderboards
-online = False
+manager = WindowManager()
 UHC = (
     Window(min_width=50)
     +"Here are the leaderboard options for UHC"
